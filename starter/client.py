@@ -41,11 +41,11 @@ if __name__ == '__main__':
         msg_bytes = DES.padding(msg).encode("utf-8")
         
         # calculate mac
-        mac = hashlib.sha256(str(msg).encode('utf-8'))
-        print('Hash: ', mac.hexdigest())
+        mac = HMAC.get_HMAC(msg_bytes, mac_key)
+        print('Hash: ', mac.hex())
         # encrypt message together with MAC (use des)
-        msg_with_mac_key = msg_bytes + mac_key
-        cipher = DES.encrypt(des, msg_with_mac_key)
+        msg_with_mac = msg_bytes + mac
+        cipher = DES.encrypt(des, msg_with_mac)
         print('Ciphertext Sent: ', cipher.decode('utf-8', errors='ignore'))
         client.send(cipher)
 
